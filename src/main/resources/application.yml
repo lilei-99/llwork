@@ -1,0 +1,61 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/llwork?useUnicode=true&useSSL=true
+    username: root
+    password: 123456
+  session:
+    store-type: redis
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    jedis:
+      pool:
+        #最小空闲数
+        min-idle: 1000
+        max-active: 300
+        max-wait: 10000
+        max-idle: 200
+    timeout: 30000
+
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT 加解密使用的密钥
+  secret: llwork
+  # JWT的超期限时间（60*60*24）
+  expiration: 604800
+  # JWT 负载中拿到开头
+  tokenHead: Bearer
+
+
+server:
+  port: 8001
+#  servlet:
+#    context-path: /llwork
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  # Mybatis-plus配置
+  type-aliases-package: com.li.pojo
+  configuration:
+  # 自动驼峰命名
+    map-underscore-to-camel-case: false
+
+
+kaptcha:
+  border: yes
+  border.color: 105,179,90
+  textproducer:
+    font:
+      color: blue
+      size: 30
+      names: 宋体,楷体,微软雅黑
+    char:
+      length: 4
+  image:
+    width: 120
+    height: 40
+  session:
+    key: code

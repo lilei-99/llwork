@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.li.mapper.EmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="Employee">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="address" property="address"/>
+        <result column="enabled" property="enabled"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="userFace" property="userFace"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="employee" type="Employee" extends="BaseResultMap">
+        <collection property="roles" ofType="Role">
+            <id column="id" property="id"></id>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="UserDetails" type="com.li.security.MyUserDetails">
+        <id property="id" column="id"></id>
+        <result property="username" column="phone"></result>
+        <result property="password" column="password"></result>
+        <collection property="roles" ofType="Role">
+            <id column="id" property="id"></id>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
+
+    <select id="findEmployeeByPhone" resultMap="employee">
+        SELECT e.*,r.name as rname ,r.nameZh as rnameZh
+        FROM t_employee as e,t_role as r,t_employee_role as er
+        where phone=#{phone} and e.id=er.eId and r.id = er.rid
+    </select>
+
+    <select id="findUserDetailsByPhone" resultMap="UserDetails">
+       SELECT e.*,r.name as rname ,r.nameZh as rnameZh
+        FROM t_employee as e,t_role as r,t_employee_role as er
+        where phone=#{phone} and e.id=er.eId and r.id = er.rid
+    </select>
+
+
+
+</mapper>
